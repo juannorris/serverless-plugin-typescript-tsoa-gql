@@ -1,0 +1,73 @@
+{
+  "name": "serverless-plugin-typescript-tsoa-gql",
+  "version": "0.0.2",
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublish": "npm run build",
+    "precommit": "npm run test",
+    "build": "rimraf dist && tsc",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+  },
+  "repository": {
+    "url": "git+https://github.com/juannorris/serverless-plugin-typescript-tsoa-gql.git"
+  },
+  "keywords": [
+    "serverless",
+    "serverless plugin",
+    "typescript",
+    "aws lambda"
+  ],
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.2.2",
+    "@graphql-codegen/typescript": "2.3.1",
+    "@types/fs-extra": "5.0.5",
+    "@types/jest": "24.0.12",
+    "@types/lodash": "4.14.123",
+    "@types/node": "12.6.2",
+    "graphql": "^15.3.0",
+    "jest": "24.5.0",
+    "mock-fs": "4.9.0",
+    "rimraf": "2.6.3",
+    "ts-jest": "24.0.2",
+    "tslint": "5.14.0",
+    "tsoa": "^3.6.1",
+    "typescript": "^4.2.0"
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "globby": "^9.2.0",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.11",
+    "shelljs": "^0.8.4"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.2.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "description": "Forked from: [serverless-plugin-tsoa](https://github.com/dgocoder/serverless-plugin-tsoa) and [serverless-plugin-typescript-graphql-codegen](https://github.com/kevinschaffter/serverless-plugin-typescript-graphql-codegen)",
+  "bugs": {
+    "url": "https://github.com/juannorris/serverless-plugin-typescript-tsoa-gql/issues"
+  },
+  "homepage": "https://github.com/juannorris/serverless-plugin-typescript-tsoa-gql#readme",
+  "directories": {
+    "example": "example",
+    "test": "tests"
+  },
+  "author": "juannorris"
+}
