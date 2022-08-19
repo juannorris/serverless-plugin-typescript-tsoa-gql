@@ -378,13 +378,16 @@ export class TypeScriptPlugin {
   private async generateSpecAndRoutes(): Promise<void> {
     this.serverless.cli.log('Generate API Routes...');
 
-    const { specConfig, routesConfig } = this.getSpecAndRoutesConfig(
-      this.originalServicePath,
-      this.isWatching ? null : this.serverless.cli
+    const logger = this.isWatching ? null : this.serverless.cli;
+    const compilerOptions = typescript.getTypescriptConfig(
+      this.originalServicePath || process.cwd(),
+      logger
     );
+    const { specConfig, routesConfig, ignorePaths } =
+      this.getSpecAndRoutesConfig(this.originalServicePath, logger);
 
-    await generateSpec(specConfig);
-    await generateRoutes(routesConfig);
+    await generateSpec(specConfig, compilerOptions, ignorePaths);
+    await generateRoutes(routesConfig, compilerOptions, ignorePaths);
 
     this.serverless.cli.log('API Route Generation Complete...');
   }
@@ -392,7 +395,11 @@ export class TypeScriptPlugin {
   private getSpecAndRoutesConfig(
     cwd: string | undefined = process.cwd(),
     logger?: { log: (str: string) => void }
-  ): { specConfig: ExtendedSpecConfig; routesConfig: ExtendedRoutesConfig } {
+  ): {
+    specConfig: ExtendedSpecConfig;
+    routesConfig: ExtendedRoutesConfig;
+    ignorePaths: string[] | undefined;
+  } {
     let specConfig: ExtendedSpecConfig = {
       entryFile: 'api/App.ts',
       noImplicitAdditionalProperties: 'silently-remove-extras',
@@ -415,10 +422,9 @@ export class TypeScriptPlugin {
       routesDir: 'build',
       authenticationModule: 'api/middleware/auth.ts',
     };
-
-    const configFilePath = path.join(cwd, TSOA_CONFIG_FILE);
-
+    let ignorePaths = undefined;
     let logMessage = `No ${TSOA_CONFIG_FILE} config found, using defaults...`;
+    const configFilePath = path.join(cwd, TSOA_CONFIG_FILE);
 
     if (fs.existsSync(configFilePath)) {
       const configFileText = fs.readFileSync(configFilePath).toString();
@@ -439,6 +445,9 @@ export class TypeScriptPlugin {
           if (tsoaConfig.routes) {
             routesConfig = { ...routesConfig, ...tsoaConfig.routes };
           }
+          if (tsoaConfig.ignore) {
+            ignorePaths = tsoaConfig.ignore;
+          }
 
           SHARED_CONFIG_PROPERTIES.forEach((sharedKey) => {
             const sharedValue = tsoaConfig[sharedKey];
@@ -456,7 +465,7 @@ export class TypeScriptPlugin {
       logger.log(logMessage);
     }
 
-    return { specConfig, routesConfig };
+    return { specConfig, routesConfig, ignorePaths };
   }
 }
 
