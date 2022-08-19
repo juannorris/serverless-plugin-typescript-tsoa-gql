@@ -379,10 +379,8 @@ export class TypeScriptPlugin {
     this.serverless.cli.log('Generate API Routes...');
 
     const logger = this.isWatching ? null : this.serverless.cli;
-    const compilerOptions = typescript.getTypescriptConfig(
-      this.originalServicePath || process.cwd(),
-      logger
-    );
+    // TODO: maybe enable compiler options at a later time
+    const compilerOptions = undefined;
     const { specConfig, routesConfig, ignorePaths } =
       this.getSpecAndRoutesConfig(this.originalServicePath, logger);
 
