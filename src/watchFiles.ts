@@ -1,8 +1,8 @@
 import * as typescript from './typescript';
 import { watchFile, unwatchFile, Stats } from 'fs';
-import globby from 'globby';
-const path = require('path');
-const shell = require('shelljs');
+import * as globby from 'globby';
+import * as path from 'path';
+import * as shell from 'shelljs';
 
 const determineNewWatchFiles = (watchedFiles, newWatchFiles, cb) => {
   watchedFiles.forEach((fileName) => {
