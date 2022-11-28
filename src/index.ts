@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import * as globby from 'globby';
 import * as ts from 'typescript';
 import * as yaml from 'js-yaml';
-import * as gqlCli from '@graphql-codegen/cli';
 
 import { generateRoutes, generateSpec } from 'tsoa';
 
@@ -168,21 +167,26 @@ export class TypeScriptPlugin {
   }
 
   async generateGraphqlTypes() {
-    this.serverless.cli.log('Generate graphql types...');
     const { generates } = this.getGqlCodegenConfig(
       this.originalServicePath,
       this.isWatching ? null : this.serverless.cli
     );
 
-    await gqlCli.generate(
-      {
-        schema: this.graphqlFilePaths,
-        generates,
-      },
-      true
-    );
+    if (generates) {
+      this.serverless.cli.log('Generate graphql types...');
 
-    this.serverless.cli.log('GraphQL Types Generation Complete...');
+      const gqlCli = require('@graphql-codegen/cli');
+
+      await gqlCli.generate(
+        {
+          schema: this.graphqlFilePaths,
+          generates,
+        },
+        true
+      );
+
+      this.serverless.cli.log('GraphQL Types Generation Complete...');
+    }
   }
 
   async watchFunction(): Promise<void> {
@@ -420,7 +424,7 @@ export class TypeScriptPlugin {
       routesDir: 'build',
       authenticationModule: 'api/middleware/auth.ts',
     };
-    let ignorePaths = undefined;
+    let ignorePaths;
     let logMessage = `No ${TSOA_CONFIG_FILE} config found, using defaults...`;
     const configFilePath = path.join(cwd, TSOA_CONFIG_FILE);
 

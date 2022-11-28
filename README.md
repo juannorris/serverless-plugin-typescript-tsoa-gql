@@ -11,7 +11,7 @@ Serverless plugin for zero-config Typescript with support for [tsoa](https://tso
 * Supports `sls package`, `sls deploy` and `sls deploy function`
 * Supports `sls invoke local` + `--watch` mode
 * Integrates nicely with [`serverless-offline`](https://github.com/dherault/serverless-offline)
-* Generates GraphQL types for file extensions `.gql` and `.graphql` (uses codegen)
+* Generates GraphQL types for file extensions `.gql` and `.graphql` (uses codegen). This is skipped if no `codegen.yml` file is found on the root of the project.
 
 ## Install
 

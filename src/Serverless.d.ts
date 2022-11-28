@@ -1,46 +1,46 @@
 declare namespace Serverless {
   interface Instance {
     cli: {
-      log(str: string): void
-    }
+      log(str: string): void;
+    };
 
     config: {
-      servicePath: string
-    }
+      servicePath: string;
+    };
 
     service: {
       provider: {
-        name: string
-      }
+        name: string;
+      };
       functions: {
-        [key: string]: Serverless.Function
-      }
-      package: Serverless.Package
-      getAllFunctions(): string[]
-    }
+        [key: string]: Serverless.Function;
+      };
+      package: Serverless.Package;
+      getAllFunctions(): string[];
+    };
 
-    pluginManager: PluginManager
+    pluginManager: PluginManager;
   }
 
   interface Options {
-    function?: string
-    watch?: boolean
-    extraServicePath?: string
+    function?: string;
+    watch?: boolean;
+    extraServicePath?: string;
   }
 
   interface Function {
-    handler: string
-    package: Serverless.Package
+    handler: string;
+    package: Serverless.Package;
   }
 
   interface Package {
-    include: string[]
-    exclude: string[]
-    artifact?: string
-    individually?: boolean
+    include: string[];
+    exclude: string[];
+    artifact?: string;
+    individually?: boolean;
   }
 
   interface PluginManager {
-    spawn(command: string): Promise<void>
+    spawn(command: string): Promise<void>;
   }
 }
