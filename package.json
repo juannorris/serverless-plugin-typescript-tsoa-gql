@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-typescript-tsoa-gql",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/src/index.js",
   "files": [
@@ -26,8 +26,8 @@
     "aws lambda"
   ],
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.2.2",
-    "@graphql-codegen/typescript": "2.3.1",
+    "@graphql-codegen/cli": "^2.14.1",
+    "@graphql-codegen/typescript": "2.8.2",
     "@types/fs-extra": "8.1.2",
     "@types/jest": "24.0.12",
     "@types/lodash": "4.14.190",
